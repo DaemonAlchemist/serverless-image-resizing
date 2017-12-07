@@ -3,13 +3,13 @@
 all: package
 
 image:
-	docker build --tag amazonlinux:nodejs .
+	sudo docker build --tag amazonlinux:nodejs .
 
 package: image
-	docker run --rm --volume ${PWD}/lambda:/build amazonlinux:nodejs npm install --production
+	sudo docker run --rm --volume ${PWD}:/build amazonlinux:nodejs npm run build
 
 dist: package
-	cd lambda && zip -FS -q -r ../dist/function.zip *
+	cd lib && sudo zip -FS -q -r ../serverless-image-resizing.zip *
 
 clean:
 	rm -r lambda/node_modules

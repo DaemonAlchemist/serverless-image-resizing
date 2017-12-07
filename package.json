@@ -1,0 +1,38 @@
+{
+  "name": "image-resize",
+  "version": "1.0.0",
+  "description": "Serverless image resizing",
+  "readme": "Serverless image resizing",
+  "repository": "https://github.com/awslabs/serverless-image-resizing",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev-test": "npm run compile && node lib/index.js",
+    "test": "npm run compile && mocha --compilers js:babel-core/register",
+    "test-quick": "mocha --compilers js:babel-core/register",
+    "test-clean": "npm install && npm test && rm -rf node_modules",
+    "build": "npm run compile && cd lib && npm install --production",
+    "compile": "babel --presets env -d lib/ src/ && cp package.json lib/package.json",
+    "prepublish": "npm run compile",
+    "new-tag": "git push && git push origin --tags && npm publish",
+    "major": "npm version major && npm run new-tag",
+    "minor": "npm version minor && npm run new-tag",
+    "patch": "npm version patch && npm run new-tag",
+    "major-clean": "npm install && npm run major && rm -rf node_modules",
+    "minor-clean": "npm install && npm run minor && rm -rf node_modules",
+    "patch-clean": "npm install && npm run patch && rm -rf node_modules",
+    "check-dependencies": "dependency-check ./package.json && dependency-check ./package.json --unused",
+    "check": "ncu --packageFile package.json",
+    "evergreen": "ncu -ua --packageFile package.json"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.36.0",
+    "dotenv": "^4.0.0",
+    "sharp": "^0.17.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
+}
