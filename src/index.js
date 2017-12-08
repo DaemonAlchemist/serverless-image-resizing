@@ -36,7 +36,6 @@ export const resizeImage = (callback, image, bucket, url, verbose = false) => {
         .then(buffer => S3.putObject({
                 Body: buffer,
                 Bucket: bucket,
-                ContentType: 'image/png',
                 Key: image,
                 ACL: 'public-read',
             }).promise()

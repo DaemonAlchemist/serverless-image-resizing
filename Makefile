@@ -9,7 +9,7 @@ package: image
 	sudo docker run --rm --volume ${PWD}:/build amazonlinux:nodejs npm run build
 
 dist: package
-	cd lib && sudo zip -FS -q -r ../serverless-image-resizing.zip *
+	cd lib && sudo zip -FS -q -r ../serverless-image-resizing.zip * && cd .. && sudo chmod 777 serverless-image-resizing.zip
 
 clean:
 	rm -r lambda/node_modules
