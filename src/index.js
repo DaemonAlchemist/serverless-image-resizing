@@ -1,8 +1,8 @@
 import AWS from 'aws-sdk';
 import sharp from 'sharp';
-import dotenv from 'dotenv';
-
-dotenv.config();
+// import dotenv from 'dotenv';
+//
+// dotenv.config();
 
 const S3 = new AWS.S3({
   signatureVersion: 'v4',
@@ -30,6 +30,7 @@ export const resizeImage = (callback, image, bucket, url, verbose = false) => {
         .promise()
         .then(data => sharp(data.Body)
             .resize(width, height)
+            //.min()
             .toFormat('png')
             .toBuffer()
         )
@@ -41,8 +42,8 @@ export const resizeImage = (callback, image, bucket, url, verbose = false) => {
             }).promise()
         )
         .then(() => callback(null, {
-                statusCode: '301',
-                headers: {'location': `http://${url}/${image}`},
+                statusCode: '308',
+                headers: {'location': `https://${url}/${image}`},
                 body: '',
             })
         )
@@ -52,8 +53,8 @@ export const resizeImage = (callback, image, bucket, url, verbose = false) => {
 export const handler = (event, context, callback) => resizeImage(callback, event.pathParameters.image.replace(/%20/g, " "), BUCKET, URL);
 
 //Testing
-const image = 'Adarien - 300x200.png';
-const callback = (_, results) => {
-    console.log(_ || results);
-};
-resizeImage(callback, image, BUCKET, URL, true);
+// const image = 'Adarien - 300x200.png';
+// const callback = (_, results) => {
+//     console.log(_ || results);
+// };
+// resizeImage(callback, image, BUCKET, URL, true);
